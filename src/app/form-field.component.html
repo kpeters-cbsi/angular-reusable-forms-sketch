@@ -6,7 +6,7 @@
       [placeholder]="placeholder"
       [ngModel]="value"
       [readOnly]="readonly"
-      (ngModelChange)="updateValue($event)"
+      (change)="doChange($event)"
       cdkTextareaAutosize
       #autosize="cdkTextareaAutosize"
       cdkAutosizeMinRows="1"
@@ -17,15 +17,19 @@
   <ng-container *ngIf="type !== 'textarea'">
     <input
       matInput
-      (ngModelChange)="updateValue($event)"
       [type]="type"
       [ngModel]="value"
       [placeholder]="placeholder"
       [value]="value"
       [readOnly]="readonly"
+      (ngModelChange)="doChange($event)"
     />
   </ng-container>
 </mat-form-field>
+<error-message-container
+  [control]="controlDir.control"
+  [errorMessages]="errorMessages"
+></error-message-container>
 <!-- <div
   *ngIf="control.invalid && (control.dirty || control.touched)"
   class="alert"

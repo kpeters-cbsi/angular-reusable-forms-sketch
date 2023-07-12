@@ -1,6 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
+import {
+  ReactiveFormsModule,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { FormFieldComponent } from './form-field.component';
 import { MatCardModule } from '@angular/material/card';
 import { TextFieldModule } from '@angular/cdk/text-field';
@@ -21,10 +26,15 @@ import { TextFieldModule } from '@angular/cdk/text-field';
 export class AppComponent {
   form = new FormGroup({
     quantity: new FormControl<Number | null>(null),
-    type: new FormControl<String | null>(null),
+    type: new FormControl<String | null>(null, {
+      validators: [Validators.required],
+    }),
     textarea: new FormControl<String | null>(null),
   });
 
+  readonly errorMessages = {
+    required: 'This field is required',
+  };
   get quantity() {
     return this.form.get('quantity') as FormControl<Number | null>;
   }

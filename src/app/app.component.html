@@ -7,16 +7,19 @@
       [formControl]="type"
       label="Type"
       placeholder="Some text goes here..."
+      [errorMessages]="errorMessages"
     ></app-form-field>
     <app-form-field
       label="Textarea"
       type="textarea"
       [formControl]="textarea"
+      [errorMessages]="errorMessages"
     ></app-form-field>
     <app-form-field
       label="Quantity"
       type="number"
       [formControl]="quantity"
+      [errorMessages]="errorMessages"
     ></app-form-field>
   </mat-card>
 </form>
@@ -27,3 +30,4 @@
 </pre
   >
 </div>
+<div>Valid? {{ form.valid }}</div>
