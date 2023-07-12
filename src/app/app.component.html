@@ -1,0 +1,29 @@
+<h1>Reusable forms sketch</h1>
+
+<form [formGroup]="form">
+  <mat-card>
+    <mat-card-title>The Form</mat-card-title>
+    <app-form-field
+      [formControl]="type"
+      label="Type"
+      placeholder="Some text goes here..."
+    ></app-form-field>
+    <app-form-field
+      label="Textarea"
+      type="textarea"
+      [formControl]="textarea"
+    ></app-form-field>
+    <app-form-field
+      label="Quantity"
+      type="number"
+      [formControl]="quantity"
+    ></app-form-field>
+  </mat-card>
+</form>
+<div>
+  <p>Form Value</p>
+  <pre
+    >{{ form.value | json }}
+</pre
+  >
+</div>

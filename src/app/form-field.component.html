@@ -1,0 +1,38 @@
+<mat-form-field>
+  <mat-label>{{ label }}</mat-label>
+  <ng-container *ngIf="type === 'textarea'">
+    <textarea
+      matInput
+      [placeholder]="placeholder"
+      [ngModel]="value"
+      [readOnly]="readonly"
+      (ngModelChange)="updateValue($event)"
+      cdkTextareaAutosize
+      #autosize="cdkTextareaAutosize"
+      cdkAutosizeMinRows="1"
+      cdkAutosizeMaxRows="5"
+      >{{ value }}</textarea
+    >
+  </ng-container>
+  <ng-container *ngIf="type !== 'textarea'">
+    <input
+      matInput
+      (ngModelChange)="updateValue($event)"
+      [type]="type"
+      [ngModel]="value"
+      [placeholder]="placeholder"
+      [value]="value"
+      [readOnly]="readonly"
+    />
+  </ng-container>
+</mat-form-field>
+<!-- <div
+  *ngIf="control.invalid && (control.dirty || control.touched)"
+  class="alert"
+>
+  <ng-container *ngFor="let error of errorMessages | keyvalue">
+    <mat-error *ngIf="control.errors?.[error.key]">
+      {{ error.value }}
+    </mat-error>
+  </ng-container>
+</div> -->
