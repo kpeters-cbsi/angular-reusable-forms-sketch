@@ -27,16 +27,7 @@
   </ng-container>
 </mat-form-field>
 <error-message-container
+  *ngIf="hasErrors"
   [control]="controlDir.control"
   [errorMessages]="errorMessages"
 ></error-message-container>
-<!-- <div
-  *ngIf="control.invalid && (control.dirty || control.touched)"
-  class="alert"
->
-  <ng-container *ngFor="let error of errorMessages | keyvalue">
-    <mat-error *ngIf="control.errors?.[error.key]">
-      {{ error.value }}
-    </mat-error>
-  </ng-container>
-</div> -->

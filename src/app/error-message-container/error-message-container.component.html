@@ -1,7 +1,4 @@
-<div
-  *ngIf="control.invalid && (control.dirty || control.touched)"
-  class="alert"
->
+<div class="alert">
   <ng-container *ngFor="let error of errorMessages | keyvalue">
     <mat-error *ngIf="control.errors?.[error.key]">
       {{ error.value }}

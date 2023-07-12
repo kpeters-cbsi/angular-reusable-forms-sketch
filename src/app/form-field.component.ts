@@ -58,9 +58,6 @@ export class FormFieldComponent<T> extends BaseFormField {
   placeholder?: string | null;
 
   @Input()
-  required: boolean = false;
-
-  @Input()
   readonly?: boolean = false;
 
   @Input()

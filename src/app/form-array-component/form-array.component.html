@@ -1,0 +1,37 @@
+<div
+  formArrayName="formArray"
+  [ngClass]="'dynamic-add-remove'"
+  *ngFor="let item of formArray.controls; let i = index"
+>
+  <button
+    type="button"
+    [ngClass]="'add-button'"
+    (click)="addItem()"
+    [matTooltip]="addTooltip || ''"
+  >
+    <mat-icon *ngIf="addIcon">{{ addIcon }}</mat-icon>
+  </button>
+  <ng-container *ngFor="let field of fields; let i = index">
+    <app-form-field
+      [label]="field.label"
+      [value]="field.value"
+      [placeholder]="field.placeholder"
+      [readonly]="readonly"
+      [type]="fieldType"
+      [errorMessages]="errorMessages"
+      [formControl]="elementAt(i)"
+    ></app-form-field>
+  </ng-container>
+  <button
+    type="button"
+    [ngClass]="'remove-button'"
+    (click)="removeItem(i)"
+    [matTooltip]="removeTooltip || ''"
+  >
+    <mat-icon *ngIf="removeIcon">{{ removeIcon }}</mat-icon>
+  </button>
+</div>
+<error-message-container
+  [control]="control"
+  [errorMessages]="errorMessages"
+></error-message-container>
