@@ -1,3 +1,5 @@
+<!-- @format -->
+
 <ng-container [formGroup]="formGroup">
   <div
     [formArrayName]="formArrayName"
@@ -36,17 +38,3 @@
   [errorMessages]="errorMessages"
   [errors]="formArray.errors"
 ></error-message-container>
-<div>
-  <p>FG Errors</p>
-  <pre
-    >{{ formGroup.errors | json }}
-</pre
-  >
-</div>
-<div>
-  <p>Array Errors</p>
-  <pre
-    >{{ formArray.errors | json }}
-</pre
-  >
-</div>

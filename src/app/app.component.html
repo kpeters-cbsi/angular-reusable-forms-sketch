@@ -1,8 +1,10 @@
+<!-- @format -->
+
 <h1>Reusable forms sketch</h1>
 
-<form [formGroup]="form">
-  <mat-card>
-    <mat-card-title>The Form</mat-card-title>
+<mat-card>
+  <mat-card-title>Form 1</mat-card-title>
+  <form [formGroup]="form">
     <app-form-field
       [formControl]="type"
       label="Type"
@@ -24,17 +26,16 @@
       [formArray]="array"
       [errorMessages]="errorMessages"
     ></app-form-array>
-  </mat-card>
-</form>
-<div>
-  <p>Form Value</p>
-  <pre
-    >{{ form.value | json }}
+  </form>
+  <div>
+    <p>Form Value</p>
+    <pre
+      >{{ form.value | json }}
 </pre
-  >
-</div>
-<div>Valid? {{ form.valid }}</div>
-  <p>Error messages</p>
+    >
+  </div>
+  <div>Valid? {{ form.valid }}</div>
+  <!-- <p>Error messages</p>
   <pre
     >{{ errorMessages | json }}
 </pre
@@ -52,6 +53,5 @@
       >{{ form.errors | json }}
 </pre
     >
-  </div>
-  <div>Valid? {{ form.valid }}</div>
-</div>
+  </div> -->
+</mat-card>
