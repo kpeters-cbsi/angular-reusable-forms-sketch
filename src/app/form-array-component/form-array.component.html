@@ -1,37 +1,52 @@
-<div
-  formArrayName="formArray"
-  [ngClass]="'dynamic-add-remove'"
-  *ngFor="let item of formArray.controls; let i = index"
->
-  <button
-    type="button"
-    [ngClass]="'add-button'"
-    (click)="addItem()"
-    [matTooltip]="addTooltip || ''"
+<ng-container [formGroup]="formGroup">
+  <div
+    [formArrayName]="formArrayName"
+    [ngClass]="'dynamic-add-remove'"
+    *ngFor="let item of formArray.controls; let i = index"
   >
-    <mat-icon *ngIf="addIcon">{{ addIcon }}</mat-icon>
-  </button>
-  <ng-container *ngFor="let field of fields; let i = index">
+    <button
+      type="button"
+      [ngClass]="'add-button'"
+      (click)="addItem()"
+      [matTooltip]="addTooltip || ''"
+    >
+      <mat-icon *ngIf="addIcon">{{ addIcon }}</mat-icon>
+      {{ addLabel }}
+    </button>
     <app-form-field
-      [label]="field.label"
-      [value]="field.value"
-      [placeholder]="field.placeholder"
+      [label]="label"
+      [value]="item.value"
       [readonly]="readonly"
       [type]="fieldType"
       [errorMessages]="errorMessages"
       [formControl]="elementAt(i)"
     ></app-form-field>
-  </ng-container>
-  <button
-    type="button"
-    [ngClass]="'remove-button'"
-    (click)="removeItem(i)"
-    [matTooltip]="removeTooltip || ''"
-  >
-    <mat-icon *ngIf="removeIcon">{{ removeIcon }}</mat-icon>
-  </button>
-</div>
+    <button
+      type="button"
+      [ngClass]="'remove-button'"
+      (click)="removeItem(i)"
+      [matTooltip]="removeTooltip || ''"
+    >
+      <mat-icon *ngIf="removeIcon">{{ removeIcon }}</mat-icon>
+      {{ removeLabel }}
+    </button>
+  </div>
+</ng-container>
 <error-message-container
-  [control]="control"
   [errorMessages]="errorMessages"
+  [errors]="formArray.errors"
 ></error-message-container>
+<div>
+  <p>FG Errors</p>
+  <pre
+    >{{ formGroup.errors | json }}
+</pre
+  >
+</div>
+<div>
+  <p>Array Errors</p>
+  <pre
+    >{{ formArray.errors | json }}
+</pre
+  >
+</div>

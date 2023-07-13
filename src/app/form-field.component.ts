@@ -15,7 +15,10 @@ import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { take } from 'rxjs/operators';
 import { BaseFormField } from './base-form-field';
-import { ErrorMessageContainerComponent } from './error-message-container/error-message-container.component';
+import {
+  ErrorMessageContainerComponent,
+  ErrorMessages,
+} from './error-message-container/error-message-container.component';
 @Component({
   selector: 'app-form-field',
   templateUrl: './form-field.component.html',
@@ -31,13 +34,13 @@ import { ErrorMessageContainerComponent } from './error-message-container/error-
 })
 export class FormFieldComponent<T> extends BaseFormField {
   constructor(
-    @Optional() @Self() public controlDir: NgControl,
+    @Optional() @Self() public override controlDir: NgControl,
     private _ngZone: NgZone
   ) {
     super(controlDir);
   }
 
-  @ViewChild('autosize') autosize: CdkTextareaAutosize;
+  @ViewChild('autosize') autosize!: CdkTextareaAutosize;
 
   ngOnInit(): void {
     console.log('Entering FormFieldComponent::OnInit');
@@ -51,9 +54,8 @@ export class FormFieldComponent<T> extends BaseFormField {
     this.type ??= 'text';
   }
 
-  @Input({ required: true })
-  label: string = '';
-
+  @Input()
+  override value: T | null = null;
   @Input()
   placeholder?: string | null;
 
@@ -61,15 +63,11 @@ export class FormFieldComponent<T> extends BaseFormField {
   readonly?: boolean = false;
 
   @Input()
-  value: T | null = null;
+  type?: string = 'text';
 
-  @Input()
-  type: string = 'text';
-
-  @Input()
-  errorMessages: Record<string, string> = {};
-
-  disabled = false;
+  @Input() override label!: string;
+  // giving the possibility to override the default error messages
+  @Input() override errorMessages: ErrorMessages = {};
 
   triggerResize() {
     // Wait for changes to be applied, then trigger textarea resize.
@@ -78,7 +76,8 @@ export class FormFieldComponent<T> extends BaseFormField {
       .subscribe(() => this.autosize.resizeToFitContent(true));
   }
 
-  doChange(value: T) {
+  doChange(value: any) {
+    console.debug('doChange()', { value });
     this.writeValue(value);
   }
 }

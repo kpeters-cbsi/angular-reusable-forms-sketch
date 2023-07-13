@@ -1,17 +1,19 @@
 import './polyfills';
 
-import { enableProdMode } from '@angular/core';
+import { ApplicationRef, enableProdMode } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './app/app.component';
 import { provideAnimations } from '@angular/platform-browser/animations';
 
-bootstrapApplication(AppComponent, { providers: [provideAnimations()] })
+bootstrapApplication(AppComponent, {
+  providers: [provideAnimations(), provideAnimations()],
+})
   .then((ref) => {
     // Ensure Angular destroys itself on hot reloads.
-    if (window['ngRef']) {
-      window['ngRef'].destroy();
+    if ('ngRef' in window) {
+      (window['ngRef'] as ApplicationRef).destroy();
     }
-    window['ngRef'] = ref;
+    (window as any)['ngRef'] = ref;
 
     // Otherwise, log the boot error
   })

@@ -10,6 +10,7 @@ import {
 import { FormFieldComponent } from './form-field.component';
 import { MatCardModule } from '@angular/material/card';
 import { TextFieldModule } from '@angular/cdk/text-field';
+import { FormArrayComponent } from './form-array-component/form-array.component';
 
 @Component({
   selector: 'my-app',
@@ -22,6 +23,7 @@ import { TextFieldModule } from '@angular/cdk/text-field';
     FormFieldComponent,
     MatCardModule,
     TextFieldModule,
+    FormArrayComponent,
   ],
 })
 export class AppComponent implements OnInit {
@@ -31,15 +33,34 @@ export class AppComponent implements OnInit {
       validators: [Validators.required],
     }),
     textarea: new FormControl<String | null>(null),
-    array: new FormArray([] as FormControl<String | null>[]),
+    array: new FormArray<FormControl<String | null>>([], {
+      validators: [Validators.minLength(2), Validators.maxLength(4)],
+    }),
   });
 
   ngOnInit() {
     console.info('AppComponent::OnInit()', { array: this.array });
+    this.array.controls.push(new FormControl('Blarg') as FormControl<String>);
   }
 
   readonly errorMessages = {
-    required: 'This field is required',
+    required: 'This field is required, mac',
+    minlength: ({
+      requiredLength,
+      actualLength,
+    }: {
+      requiredLength: number;
+      actualLength: number;
+    }) =>
+      `There are only ${actualLength} items. There must be at least ${requiredLength}`,
+    maxlength: ({
+      requiredLength,
+      actualLength,
+    }: {
+      requiredLength: number;
+      actualLength: number;
+    }) =>
+      `There are only ${actualLength} items. There must be at most ${requiredLength}`,
   };
   get quantity() {
     return this.form.get('quantity') as FormControl<Number | null>;

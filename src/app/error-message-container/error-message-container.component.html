@@ -1,7 +1,7 @@
 <div class="alert">
-  <ng-container *ngFor="let error of errorMessages | keyvalue">
-    <mat-error *ngIf="control.errors?.[error.key]">
-      {{ error.value }}
+  <ng-container *ngFor="let error of errors | keyvalue">
+    <mat-error>
+      {{ getErrorMessage(error.key) }}
     </mat-error>
   </ng-container>
 </div>

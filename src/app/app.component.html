@@ -7,24 +7,22 @@
       [formControl]="type"
       label="Type"
       placeholder="Some text goes here..."
-      [errorMessages]="errorMessages"
     ></app-form-field>
     <app-form-field
       label="Textarea"
       type="textarea"
       [formControl]="textarea"
-      [errorMessages]="errorMessages"
     ></app-form-field>
     <app-form-field
       label="Quantity"
       type="number"
       [formControl]="quantity"
-      [errorMessages]="errorMessages"
     ></app-form-field>
     <app-form-array
       label="Array"
       fieldType="text"
-      [formControl]="array"
+      [formArray]="array"
+      [errorMessages]="errorMessages"
     ></app-form-array>
   </mat-card>
 </form>
@@ -36,3 +34,24 @@
   >
 </div>
 <div>Valid? {{ form.valid }}</div>
+  <p>Error messages</p>
+  <pre
+    >{{ errorMessages | json }}
+</pre
+  >
+  <div>
+    <p>Form Value</p>
+    <pre
+      >{{ form.value | json }}
+</pre
+    >
+  </div>
+  <div>
+    <p>Form Errors</p>
+    <pre
+      >{{ form.errors | json }}
+</pre
+    >
+  </div>
+  <div>Valid? {{ form.valid }}</div>
+</div>

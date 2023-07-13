@@ -1,12 +1,14 @@
+<!-- @format -->
+
 <mat-form-field>
   <mat-label>{{ label }}</mat-label>
   <ng-container *ngIf="type === 'textarea'">
     <textarea
       matInput
-      [placeholder]="placeholder"
       [ngModel]="value"
       [readOnly]="readonly"
-      (change)="doChange($event)"
+      [placeholder]="placeholder || ''"
+      (ngModelChange)="doChange($event)"
       cdkTextareaAutosize
       #autosize="cdkTextareaAutosize"
       cdkAutosizeMinRows="1"
@@ -17,17 +19,18 @@
   <ng-container *ngIf="type !== 'textarea'">
     <input
       matInput
-      [type]="type"
+      [type]="type || 'text'"
       [ngModel]="value"
-      [placeholder]="placeholder"
+      [placeholder]="placeholder || ''"
       [value]="value"
       [readOnly]="readonly"
       (ngModelChange)="doChange($event)"
     />
   </ng-container>
 </mat-form-field>
+
 <error-message-container
   *ngIf="hasErrors"
-  [control]="controlDir.control"
+  [errors]="control?.errors"
   [errorMessages]="errorMessages"
 ></error-message-container>

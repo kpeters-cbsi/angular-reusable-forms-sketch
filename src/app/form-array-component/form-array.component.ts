@@ -1,32 +1,19 @@
 import { CommonModule } from '@angular/common';
+import { Component, Input, OnInit } from '@angular/core';
 import {
-  Component,
-  DoCheck,
-  EventEmitter,
-  forwardRef,
-  Input,
-  OnInit,
-  Optional,
-  Output,
-  Self,
-} from '@angular/core';
-import {
-  ControlValueAccessor,
   FormArray,
   FormControl,
-  NgControl,
-  NG_VALUE_ACCESSOR,
+  FormGroup,
   ReactiveFormsModule,
 } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { ErrorMessageContainerComponent } from '../error-message-container/error-message-container.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import {
+  ErrorMessageContainerComponent,
+  ErrorMessages,
+} from '../error-message-container/error-message-container.component';
 import { FormFieldComponent } from '../form-field.component';
-
-export interface FieldSpec<T> {
-  placeholder?: string;
-  value?: T;
-}
 
 @Component({
   selector: 'app-form-array',
@@ -38,21 +25,17 @@ export interface FieldSpec<T> {
     MatFormFieldModule,
     ReactiveFormsModule,
     MatFormFieldModule,
+    MatTooltipModule,
     ErrorMessageContainerComponent,
     MatIconModule,
     FormFieldComponent,
+    FormArrayComponent,
   ],
-  // providers: [
-  //   {
-  //     provide: NG_VALUE_ACCESSOR,
-  //     useExisting: forwardRef(() => FormArrayComponent),
-  //     multi: true,
-  //   },
-  // ],
 })
-export class FormArrayComponent<T>
-  implements OnInit, ControlValueAccessor, DoCheck
-{
+export class FormArrayComponent<T> implements OnInit {
+  @Input({ required: true })
+  formArray!: FormArray<FormControl<T>>;
+
   @Input()
   readonly?: boolean;
 
@@ -60,7 +43,7 @@ export class FormArrayComponent<T>
   fieldType?: string;
 
   @Input()
-  addLabel?: string;
+  addLabel?: string = 'Un-yeet it';
 
   @Input()
   addIcon?: string;
@@ -69,7 +52,7 @@ export class FormArrayComponent<T>
   addTooltip?: string | null;
 
   @Input()
-  removeLabel?: string;
+  removeLabel?: string = 'Yeet it';
 
   @Input()
   removeTooltip?: string | null;
@@ -80,86 +63,30 @@ export class FormArrayComponent<T>
   @Input({ required: true })
   label!: string;
 
-  @Input()
-  fields: FieldSpec<T>[] = [];
+  @Input() errorMessages: ErrorMessages = {};
 
-  @Input() ariaLabel: string;
-  // giving the possibility to override the default error messages
-
-  @Input() errorMessages: { [key: string]: string } = {};
-
-  @Output() change = new EventEmitter<any>();
-
+  formArrayName!: string;
+  fg!: FormGroup;
   ngOnInit() {
-    console.info('FormArrayComponent::onInit()');
+    console.info('FormArrayComponent::onInit()', {
+      parent: this.formArray.parent,
+      array: this.formArray,
+      parentIsAFormGroup: this.formArray.parent instanceof FormGroup,
+    });
+    this.addLabel ??= 'Add item';
+    this.removeLabel ??= 'Remove item';
+    const name = Object.keys(this.formGroup.controls).find(
+      (name) => this.formGroup.get(name) === this.formArray
+    );
+    if (name) {
+      console.info('FormArrayComponent::onInit found control name', { name });
+      this.formArrayName = name;
+    }
   }
-  value: T[];
-  text: string;
+
+  value!: T[];
   disabled = false;
   required = false;
-
-  onChange = (_value: T[]) => {};
-  onTouched = () => {};
-
-  constructor(@Optional() @Self() public controlDir: NgControl) {
-    console.info('formArrayComponent::constructor', { controlDir });
-    // bind the CVA to our control
-    controlDir.valueAccessor = this;
-  }
-
-  ngDoCheck() {
-    console.info('ngDoCheck', { control: this.controlDir.control });
-    if (this.controlDir.control instanceof FormArray) {
-      // check if this field is required or not to display a 'required label'
-      const validator =
-        this.controlDir.control.validator &&
-        this.controlDir.control.validator(new FormArray([]));
-      this.required =
-        Boolean(validator && validator.hasOwnProperty('required')) ||
-        Boolean(validator && validator.hasOwnProperty('selectedCount'));
-    }
-  }
-
-  get hasErrors() {
-    return (
-      this.controlDir.control &&
-      this.controlDir.control.touched &&
-      this.controlDir.control.errors
-    );
-  }
-
-  get control() {
-    return this.controlDir?.control;
-  }
-
-  get formArray() {
-    return this.control as FormArray;
-  }
-  // implementation of `ControlValueAccessor`
-  writeValue(value: any): void {
-    this.value = value;
-    if (typeof value === 'string') {
-      this.text = value;
-    }
-
-    this.onChange(this.value);
-    this.change.emit(this.value);
-  }
-
-  registerOnChange(fn: any): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: () => void): void {
-    this.onTouched = fn;
-  }
-
-  setDisabledState(disabled: boolean): void {
-    this.disabled = disabled;
-  }
-  doChange(value: T[]) {
-    this.writeValue(value);
-  }
 
   elementAt(index: number) {
     return this.formArray.at(index) as FormControl<T>;
@@ -170,5 +97,9 @@ export class FormArrayComponent<T>
 
   removeItem(index: number) {
     this.formArray.removeAt(index);
+  }
+
+  get formGroup() {
+    return this.formArray.parent as FormGroup<any>;
   }
 }
