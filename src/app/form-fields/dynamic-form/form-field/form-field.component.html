@@ -1,0 +1,44 @@
+<!-- @format -->
+
+<ng-container [formGroup]="form">
+  <mat-form-field>
+    <label [attr.for]="field.key">{{ field.label }}</label>
+
+    <div [ngSwitch]="field.controlType">
+      <input
+        matInput
+        *ngSwitchCase="'text'"
+        [formControlName]="field.key"
+        [id]="field.key"
+        [type]="field.type"
+        [value]="field.value"
+      />
+
+      <textarea
+        *ngSwitchCase="'textarea'"
+        matInput
+        [id]="field.key"
+        [formControlName]="field.key"
+        cdkTextareaAutosize
+        #autosize="cdkTextareaAutosize"
+        cdkAutosizeMinRows="1"
+        cdkAutosizeMaxRows="5"
+        >{{ field.value }}</textarea
+      >
+
+      <mat-select
+        [id]="field.key"
+        *ngSwitchCase="'select'"
+        [formControlName]="field.key"
+      >
+        <mat-option *ngFor="let opt of field.options" [value]="opt.key">
+          {{ opt.value }}
+        </mat-option>
+      </mat-select>
+
+      <div class="errorMessage" *ngIf="!isValid">
+        {{ field.label }} is required
+      </div>
+    </div>
+  </mat-form-field>
+</ng-container>

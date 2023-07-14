@@ -1,0 +1,24 @@
+<!-- @format -->
+<div>
+  <form (ngSubmit)="_onSubmit()" [formGroup]="form" [ngClass]="class">
+    <div *ngFor="let field of fields" class="form-row">
+      <ng-template #formField>
+        <app-form-field [field]="field" [form]="form"></app-form-field>
+      </ng-template>
+      <ng-container *ngIf="isArray(field); else formField">
+        <app-form-field-array
+          [array]="field"
+          [form]="form"
+        ></app-form-field-array>
+      </ng-container>
+    </div>
+
+    <div class="form-row">
+      <button type="submit" [disabled]="!form.valid">Save</button>
+    </div>
+  </form>
+
+  <div>
+    <pre>{{ form.value | json }}</pre>
+  </div>
+</div>

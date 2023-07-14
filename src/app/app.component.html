@@ -1,57 +1,54 @@
 <!-- @format -->
 
 <h1>Reusable forms sketch</h1>
-
-<mat-card>
-  <mat-card-title>Form 1</mat-card-title>
-  <form [formGroup]="form">
-    <app-form-field
-      [formControl]="type"
-      label="Type"
-      placeholder="Some text goes here..."
-    ></app-form-field>
-    <app-form-field
-      label="Textarea"
-      type="textarea"
-      [formControl]="textarea"
-    ></app-form-field>
-    <app-form-field
-      label="Quantity"
-      type="number"
-      [formControl]="quantity"
-    ></app-form-field>
-    <app-form-array
-      label="Array"
-      fieldType="text"
-      [formArray]="array"
-      [errorMessages]="errorMessages"
-    ></app-form-array>
-  </form>
-  <div>
-    <p>Form Value</p>
-    <pre
-      >{{ form.value | json }}
+<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
+  <!-- <mat-tab label="Form 1">
+    <mat-card>
+      <form [formGroup]="form">
+        <app-form-field
+          [formControl]="type"
+          label="Type"
+          placeholder="Some text goes here..."
+        ></app-form-field>
+        <app-form-field
+          label="Textarea"
+          type="textarea"
+          [formControl]="textarea"
+        ></app-form-field>
+        <app-form-field
+          label="Quantity"
+          type="number"
+          [formControl]="quantity"
+        ></app-form-field>
+        <app-form-array
+          label="Array"
+          fieldType="text"
+          [formArray]="array"
+          [errorMessages]="errorMessages"
+        ></app-form-array>
+      </form>
+      <div>
+        <p>Form Value</p>
+        <pre
+          >{{ form.value | json }}
 </pre
-    >
-  </div>
-  <div>Valid? {{ form.valid }}</div>
-  <!-- <p>Error messages</p>
-  <pre
-    >{{ errorMessages | json }}
+        >
+      </div>
+      <div>Valid? {{ form.valid }}</div>
+    </mat-card>
+  </mat-tab> -->
+  <mat-tab label="Form 2">
+    <app-dynamic-form
+      [fields]="fields"
+      [onSubmit]="onSubmit"
+      class="form-class"
+    ></app-dynamic-form>
+    <div>
+      <p>Form Value</p>
+      <pre
+        >{{ formValue | json }}
 </pre
-  >
-  <div>
-    <p>Form Value</p>
-    <pre
-      >{{ form.value | json }}
-</pre
-    >
-  </div>
-  <div>
-    <p>Form Errors</p>
-    <pre
-      >{{ form.errors | json }}
-</pre
-    >
-  </div> -->
-</mat-card>
+      >
+    </div>
+  </mat-tab>
+</mat-tab-group>

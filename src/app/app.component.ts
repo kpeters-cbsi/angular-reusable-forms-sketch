@@ -11,9 +11,19 @@ import {
 } from "@angular/forms"
 import { FormFieldComponent } from "./form-field.component"
 import { MatCardModule } from "@angular/material/card"
+import { MatTabsModule } from "@angular/material/tabs"
 import { TextFieldModule } from "@angular/cdk/text-field"
 import { FormArrayComponent } from "./form-array-component/form-array.component"
-
+import {
+  DynamicFormComponent,
+  IFieldSpec,
+} from "./form-fields/dynamic-form/dynamic-form.component"
+import { FormField } from "./form-fields/dynamic-form/form-field"
+import { FormFieldArray } from "./form-fields/dynamic-form/form-field-array"
+type MyObject = {
+  Key: string
+  Value: string
+}
 @Component({
   selector: "my-app",
   templateUrl: "./app.component.html",
@@ -26,6 +36,8 @@ import { FormArrayComponent } from "./form-array-component/form-array.component"
     MatCardModule,
     TextFieldModule,
     FormArrayComponent,
+    DynamicFormComponent,
+    MatTabsModule,
   ],
 })
 export class AppComponent implements OnInit {
@@ -40,9 +52,64 @@ export class AppComponent implements OnInit {
     }),
   })
 
+  fields!: IFieldSpec[]
+  formValue?: Record<string, any>
+
   ngOnInit() {
     console.info("AppComponent::OnInit()", { array: this.array })
     this.array.controls.push(new FormControl("") as FormControl<String>)
+
+    this.fields = [
+      new FormField<Number>({
+        label: "Numeric Field",
+        key: "number",
+        value: 37,
+        required: true,
+        controlType: "text",
+        type: "number",
+      }),
+      new FormField<String>({
+        label: "Text Field",
+        key: "text",
+        value: "Foo bar baz",
+        required: true,
+        controlType: "text",
+      }),
+      new FormField<String>({
+        label: "Textarea",
+        key: "textarea",
+        value:
+          "Lorem ipsum dolor sic amet\nQuot erat demonstradum\nSolve et coagula",
+        controlType: "textarea",
+      }),
+      new FormFieldArray<String>({
+        label: "String Array",
+        key: "stringarray",
+        items: ["Foo", "Bar"],
+        type: "text",
+        addLabel: "Add it",
+        removeLabel: "Yeet it",
+      }),
+      // new FormFieldArray<MyObject>({
+      //   label: "Object Array",
+      //   key: "objarray",
+      //   items: [
+      //     {
+      //       Key: "Key 1",
+      //       Value: "Value 1",
+      //     },
+      //     {
+      //       Key: "Key 2",
+      //       Value: "Value 2",
+      //     },
+      //   ],
+      // }),
+    ]
+  }
+
+  onSubmit(formValue: Record<string, any>) {
+    console.debug("Stumbit", { formValue })
+    this.formValue = formValue
   }
 
   readonly errorMessages = {

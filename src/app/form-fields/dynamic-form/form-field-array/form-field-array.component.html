@@ -1,0 +1,38 @@
+<!-- @format -->
+<ng-container [formGroup]="form">
+  <mat-label [attr.for]="key">{{ label }}</mat-label>
+  <button
+    type="button"
+    [ngClass]="'add-button'"
+    (click)="addItem()"
+    [matTooltip]="addTooltip || ''"
+  >
+    <mat-icon *ngIf="addIcon">{{ addIcon }}</mat-icon>
+    {{ addLabel }}
+  </button>
+  <div
+    [formArrayName]="key"
+    [ngClass]="'dynamic-add-remove'"
+    *ngFor="let item of formArray.controls; let i = index"
+  >
+    <mat-form-field>
+      <input
+        matInput
+        [formControl]="item"
+        [type]="fieldType"
+        [placeholder]="placeholder"
+      />
+    </mat-form-field>
+    <mat-card-actions align="end">
+      <button
+        type="button"
+        [ngClass]="'remove-button'"
+        (click)="removeItem(i)"
+        [matTooltip]="removeTooltip || ''"
+      >
+        <mat-icon *ngIf="removeIcon">{{ removeIcon }}</mat-icon>
+        {{ removeLabel }}
+      </button>
+    </mat-card-actions>
+  </div>
+</ng-container>
