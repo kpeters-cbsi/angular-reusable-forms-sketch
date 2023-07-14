@@ -2,7 +2,11 @@
 
 <h1>Reusable forms sketch</h1>
 <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
-  <!-- <mat-tab label="Form 1">
+  <mat-tab label="Form 1">
+    <mat-card-subtitle
+      >Not really dynamic, just incorporates some field wrapping
+      components</mat-card-subtitle
+    >
     <mat-card>
       <form [formGroup]="form">
         <app-form-field
@@ -36,8 +40,9 @@
       </div>
       <div>Valid? {{ form.valid }}</div>
     </mat-card>
-  </mat-tab> -->
+  </mat-tab>
   <mat-tab label="Form 2">
+    <mat-card-subtitle>Super dynamic!</mat-card-subtitle>
     <app-dynamic-form
       [fields]="fields"
       [onSubmit]="onSubmit"

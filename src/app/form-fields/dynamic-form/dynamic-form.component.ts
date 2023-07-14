@@ -36,8 +36,8 @@ export type IFieldSpec = {
 export class DynamicFormComponent implements OnInit {
   public form!: FormGroup
 
-  @Input() public fields: (FormField | FormFieldArray)[] | null = []
-  @Input() public onSubmit: (formValue: string) => void = () => {}
+  @Input() public fields: IFieldSpec[] | null = []
+  @Input() public onSubmit: (formValue: any) => void = () => {}
   @Input() public class: string = ""
 
   ngOnInit(): void {
@@ -51,10 +51,12 @@ export class DynamicFormComponent implements OnInit {
           formArray.addValidators(Validators.required)
         }
         group[field.key] = formArray
-      } else {
+      } else if (field instanceof FormField) {
         group[field.key] = field.required
           ? new FormControl(field.value, Validators.required)
           : new FormControl(field.value)
+      } else {
+        throw new Error(`Unsupported component type ${field.constructor.name}`)
       }
     })
     console.debug("DynamicFormComponent::ngOnInit()", { group })

@@ -3,11 +3,11 @@
   <form (ngSubmit)="_onSubmit()" [formGroup]="form" [ngClass]="class">
     <div *ngFor="let field of fields" class="form-row">
       <ng-template #formField>
-        <app-form-field [field]="field" [form]="form"></app-form-field>
+        <app-form-field [field]="$any(field)" [form]="form"></app-form-field>
       </ng-template>
       <ng-container *ngIf="isArray(field); else formField">
         <app-form-field-array
-          [array]="field"
+          [array]="$any(field)"
           [form]="form"
         ></app-form-field-array>
       </ng-container>
