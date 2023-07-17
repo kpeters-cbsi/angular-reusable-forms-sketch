@@ -8,7 +8,7 @@
         [form]="form"
       ></app-form-field>
       <app-form-field-array
-        *ngIf="fieldType(field) === 'FormArray'"
+        *ngIf="fieldType(field) === 'FormFieldArray'"
         [array]="$any(field)"
         [form]="form"
       ></app-form-field-array>

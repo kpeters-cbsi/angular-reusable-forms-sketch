@@ -32,7 +32,6 @@ import { FormFieldComponent } from "../form-field.component"
     ErrorMessageContainerComponent,
     MatIconModule,
     FormFieldComponent,
-    FormArrayComponent,
     MatButtonModule,
   ],
 })
