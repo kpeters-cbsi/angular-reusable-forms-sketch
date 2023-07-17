@@ -122,6 +122,6 @@ export class ObjectInputComponent<T extends Value>
     // console.debug("ObjectInputComponent::fields", {
     //   keyvals: Object.entries(this.field.value),
     // })
-    return this.field.fields
+    return Object.values(this.field.fields)
   }
 }

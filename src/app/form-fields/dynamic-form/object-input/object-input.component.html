@@ -1,6 +1,6 @@
 <!-- @format -->
 <form [formGroup]="form">
-  <ng-container *ngFor="let field of fields | keyvalue">
-    <app-form-field [field]="$any(field.value)" [form]="form"></app-form-field>
+  <ng-container *ngFor="let field of fields">
+    <app-form-field [field]="$any(field)" [form]="form"></app-form-field>
   </ng-container>
 </form>
