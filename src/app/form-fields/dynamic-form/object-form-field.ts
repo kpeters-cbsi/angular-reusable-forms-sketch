@@ -6,7 +6,7 @@ import { FormFieldBase, FormFieldBaseInit } from "./form-field-base"
 
 export type Value = { [key: string]: FieldValue }
 interface ObjectFormFieldInit<T extends Value> extends FormFieldBaseInit<T> {
-  fields: { [Key in keyof T]: FormFieldSpec<T[Key]> }
+  fields?: { [Key in keyof T]: FormFieldSpec<T[Key]> }
 }
 
 export class ObjectFormField<T extends Value> extends FormFieldBase<T> {
@@ -14,6 +14,20 @@ export class ObjectFormField<T extends Value> extends FormFieldBase<T> {
 
   constructor(options: ObjectFormFieldInit<T>) {
     super({ ...options, value: options.value || ({} as T) })
-    this.fields = options.fields
+    this.fields ??= Object.entries(options.value).reduce(
+      (acc, [key, value]) => ({
+        ...acc,
+        [key]: new FormFieldSpec({
+          label: key.slice(0, 1).toUpperCase() + key.slice(1),
+          value,
+          key,
+        }),
+      }),
+      {} as NonNullable<ObjectFormFieldInit<T>["fields"]>
+    )
+    console.debug(`ObjectFormField::constructor`, {
+      fields: this.fields,
+      value: this.value,
+    })
   }
 }
