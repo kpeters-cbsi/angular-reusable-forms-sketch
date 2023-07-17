@@ -18,8 +18,9 @@ import {
   DynamicFormComponent,
   IFieldSpec,
 } from "./form-fields/dynamic-form/dynamic-form.component"
-import { FormField } from "./form-fields/dynamic-form/form-field"
+import { FormFieldSpec } from "./form-fields/dynamic-form/form-field-spec"
 import { FormFieldArray } from "./form-fields/dynamic-form/form-field-array"
+import { ObjectFormField } from "./form-fields/dynamic-form/object-form-field"
 type MyObject = {
   Key: string
   Value: string
@@ -43,11 +44,11 @@ type MyObject = {
 export class AppComponent implements OnInit {
   form = new FormGroup({
     quantity: new FormControl<Number | null>(null),
-    type: new FormControl<String | null>(null, {
+    type: new FormControl<string | null>(null, {
       validators: [Validators.required],
     }),
-    textarea: new FormControl<String | null>(null),
-    array: new FormArray<FormControl<String | null>>([], {
+    textarea: new FormControl<string | null>(null),
+    array: new FormArray<FormControl<string | null>>([], {
       validators: [Validators.minLength(2), Validators.maxLength(4)],
     }),
   })
@@ -57,10 +58,10 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     console.info("AppComponent::OnInit()", { array: this.array })
-    this.array.controls.push(new FormControl("") as FormControl<String>)
+    this.array.controls.push(new FormControl("") as FormControl<string>)
 
     this.fields = [
-      new FormField<Number>({
+      new FormFieldSpec<Number>({
         label: "Numeric Field",
         key: "number",
         value: 37,
@@ -68,28 +69,45 @@ export class AppComponent implements OnInit {
         controlType: "text",
         type: "number",
       }),
-      new FormField<String>({
+      new FormFieldSpec<string>({
         label: "Text Field",
         key: "text",
         value: "Foo bar baz",
         required: true,
         controlType: "text",
       }),
-      new FormField<String>({
+      new FormFieldSpec<string>({
         label: "Textarea",
         key: "textarea",
         value:
           "Lorem ipsum dolor sic amet\nQuot erat demonstradum\nSolve et coagula",
         controlType: "textarea",
       }),
-      new FormFieldArray<String>({
-        label: "String Array",
-        key: "stringarray",
-        items: ["Foo", "Bar"],
-        type: "text",
-        addLabel: "Add it",
-        removeLabel: "Yeet it",
+      new ObjectFormField<MyObject>({
+        label: "Object",
+        key: "object",
+        value: {
+          Key: "Argle",
+          Value: "Bargle",
+        },
+        fields: {
+          Key: new FormFieldSpec<string>({
+            label: "Key",
+            key: "Key",
+          }),
+          Value: new FormFieldSpec<string>({
+            label: "Value",
+            key: "Value",
+          }),
+        },
       }),
+      new FormFieldArray<string>({
+        label: "string Array",
+        key: "stringarray",
+        type: "text",
+        value: ["Foo", "Bar"],
+      }),
+
       // new FormFieldArray<MyObject>({
       //   label: "Object Array",
       //   key: "objarray",
@@ -135,12 +153,12 @@ export class AppComponent implements OnInit {
     return this.form.get("quantity") as FormControl<Number | null>
   }
   get type() {
-    return this.form.get("type") as FormControl<String | null>
+    return this.form.get("type") as FormControl<string | null>
   }
   get textarea() {
-    return this.form.get("textarea") as FormControl<String | null>
+    return this.form.get("textarea") as FormControl<string | null>
   }
   get array() {
-    return this.form.get("array") as FormArray<FormControl<String>>
+    return this.form.get("array") as FormArray<FormControl<string>>
   }
 }
