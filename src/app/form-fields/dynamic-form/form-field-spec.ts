@@ -3,24 +3,21 @@
 import { FieldValue } from "./dynamic-form.component"
 import { FormFieldBase, FormFieldBaseInit } from "./form-field-base"
 
-export type FormFieldInit<T> = FormFieldBaseInit & {
-  value?: T
-  controlType: string
+export type FormFieldInit<T> = FormFieldBaseInit<T> & {
+  controlType?: string
   type?: string
   options?: { key: string; value: string }[]
 }
-export class FormField<
+export class FormFieldSpec<
   T extends FieldValue = FieldValue
-> extends FormFieldBase {
-  value: T | undefined
+> extends FormFieldBase<T> {
   controlType: string
   type: string
   options: { key: string; value: string }[]
 
   constructor(options: FormFieldInit<T>) {
     super(options)
-    this.value = options.value
-    this.controlType = options.controlType
+    this.controlType = options.controlType || "text"
     this.type = options.type || "text"
     this.options = options.options || []
   }
