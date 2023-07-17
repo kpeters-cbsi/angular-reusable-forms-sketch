@@ -6,6 +6,8 @@
     [ngClass]="'add-button'"
     (click)="addItem()"
     [matTooltip]="addTooltip || ''"
+    mat-button
+    color="accent"
   >
     <mat-icon *ngIf="addIcon">{{ addIcon }}</mat-icon>
     {{ addLabel }}
@@ -25,6 +27,8 @@
     </mat-form-field>
     <mat-card-actions align="end">
       <button
+        mat-button
+        color="warn"
         type="button"
         [ngClass]="'remove-button'"
         (click)="removeItem(i)"

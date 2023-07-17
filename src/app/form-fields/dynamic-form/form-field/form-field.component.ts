@@ -8,7 +8,7 @@ import { MatFormFieldModule } from "@angular/material/form-field"
 import { MatIconModule } from "@angular/material/icon"
 import { MatInputModule } from "@angular/material/input"
 import { MatSelectModule } from "@angular/material/select"
-import { FormField } from "../form-field"
+import { FormFieldSpec } from "../form-field-spec"
 
 @Component({
   selector: "app-form-field",
@@ -26,7 +26,7 @@ import { FormField } from "../form-field"
   styleUrls: ["./form-field.component.scss"],
 })
 export class FormFieldComponent<T> implements OnInit {
-  @Input({ required: true }) field!: FormField<T>
+  @Input({ required: true }) field!: FormFieldSpec<T>
   @Input({ required: true }) form!: FormGroup
 
   ngOnInit(): void {

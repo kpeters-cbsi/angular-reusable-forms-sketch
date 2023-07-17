@@ -7,6 +7,8 @@
     *ngFor="let item of formArray.controls; let i = index"
   >
     <button
+      mat-button
+      color="accent"
       type="button"
       [ngClass]="'add-button'"
       (click)="addItem()"
@@ -24,6 +26,8 @@
       [formControl]="elementAt(i)"
     ></app-form-field>
     <button
+      mat-button
+      color="warn"
       type="button"
       [ngClass]="'remove-button'"
       (click)="removeItem(i)"

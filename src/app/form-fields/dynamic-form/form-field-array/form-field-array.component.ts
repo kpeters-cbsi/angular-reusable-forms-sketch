@@ -15,6 +15,7 @@ import { MatFormFieldModule } from "@angular/material/form-field"
 import { FormFieldComponent } from "../form-field/form-field.component"
 import { MatCardModule } from "@angular/material/card"
 import { MatInputModule } from "@angular/material/input"
+import { MatButtonModule } from "@angular/material/button"
 
 @Component({
   selector: "app-form-field-array",
@@ -28,6 +29,7 @@ import { MatInputModule } from "@angular/material/input"
     FormFieldComponent,
     MatCardModule,
     MatInputModule,
+    MatButtonModule,
   ],
   templateUrl: "./form-field-array.component.html",
   styleUrls: ["./form-field-array.component.scss"],
@@ -36,15 +38,6 @@ export class FormFieldArrayComponent<T> implements OnInit {
   @Input({ required: true }) array!: FormFieldArray<T>
   @Input({ required: true }) form!: FormGroup
 
-  arr2 = new FormArray([
-    new FormControl("Alpha"),
-    new FormControl("Beta"),
-    new FormControl("Gamma"),
-  ])
-
-  f2 = new FormGroup({
-    arr2: this.arr2,
-  })
   ngOnInit(): void {
     console.debug("FormFieldArrayComponent::ngOnInit()", {
       controls: this.formArray.controls,
