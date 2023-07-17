@@ -2,15 +2,21 @@
 <div>
   <form (ngSubmit)="_onSubmit()" [formGroup]="form" [ngClass]="class">
     <div *ngFor="let field of fields" class="form-row">
-      <ng-template #formField>
-        <app-form-field [field]="$any(field)" [form]="form"></app-form-field>
-      </ng-template>
-      <ng-container *ngIf="isArray(field); else formField">
-        <app-form-field-array
-          [array]="$any(field)"
-          [form]="form"
-        ></app-form-field-array>
-      </ng-container>
+      <app-form-field
+        *ngIf="fieldType(field) === 'FormFieldSpec'"
+        [field]="$any(field)"
+        [form]="form"
+      ></app-form-field>
+      <app-form-field-array
+        *ngIf="fieldType(field) === 'FormArray'"
+        [array]="$any(field)"
+        [form]="form"
+      ></app-form-field-array>
+      <app-object-input
+        *ngIf="fieldType(field) === 'ObjectFormField'"
+        [field]="$any(field)"
+        [formControl]="formControlOf(field)"
+      ></app-object-input>
     </div>
 
     <div class="form-row">
