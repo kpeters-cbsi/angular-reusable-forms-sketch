@@ -25,9 +25,9 @@ export class ObjectFormField<T extends Value> extends FormFieldBase<T> {
       }),
       {} as NonNullable<ObjectFormFieldInit<T>["fields"]>
     )
-    console.debug(`ObjectFormField::constructor`, {
-      fields: this.fields,
-      value: this.value,
-    })
+    // console.debug(`ObjectFormField::constructor`, {
+    //   fields: this.fields,
+    //   value: this.value,
+    // })
   }
 }

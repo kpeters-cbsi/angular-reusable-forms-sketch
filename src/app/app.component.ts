@@ -90,16 +90,6 @@ export class AppComponent implements OnInit {
           Key: "Argle",
           Value: "Bargle",
         },
-        fields: {
-          Key: new FormFieldSpec<string>({
-            label: "Key",
-            key: "Key",
-          }),
-          Value: new FormFieldSpec<string>({
-            label: "Value",
-            key: "Value",
-          }),
-        },
       }),
       new FormFieldArray<string>({
         label: "string Array",
@@ -107,21 +97,30 @@ export class AppComponent implements OnInit {
         type: "text",
         value: ["Foo", "Bar"],
       }),
-
-      // new FormFieldArray<MyObject>({
-      //   label: "Object Array",
-      //   key: "objarray",
-      //   items: [
-      //     {
-      //       Key: "Key 1",
-      //       Value: "Value 1",
-      //     },
-      //     {
-      //       Key: "Key 2",
-      //       Value: "Value 2",
-      //     },
-      //   ],
-      // }),
+      new FormFieldArray<MyObject>({
+        label: "Object Array",
+        key: "objarray",
+        value: [
+          {
+            Key: "Key-yo 1",
+            Value: "Value-yo 1",
+          },
+          {
+            Key: "Key 2",
+            Value: "Value 2",
+          },
+        ],
+        fields: {
+          Key: new FormFieldSpec<string>({
+            label: "Thee Key",
+            key: "Key",
+          }),
+          Value: new FormFieldSpec<string>({
+            label: "Thee Value",
+            key: "Value",
+          }),
+        },
+      }),
     ]
   }
 

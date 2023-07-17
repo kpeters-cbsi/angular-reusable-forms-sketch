@@ -77,8 +77,7 @@ export class ObjectInputComponent<T extends Value>
         return { ...acc, [key]: control }
       }, {} as FormControlOf<T>)
     )
-    this.form
-    console.debug("ObjectInputComponent::ngOnInit()", { f: this.form })
+    console.debug("ObjectInputComponent::ngOnInit()", { form: this.form })
   }
 
   ngOnDestroy(): void {
@@ -115,7 +114,7 @@ export class ObjectInputComponent<T extends Value>
   }
 
   get isValid() {
-    return this.form.controls[this.field.key].valid
+    return this.form.valid
   }
 
   get fields() {

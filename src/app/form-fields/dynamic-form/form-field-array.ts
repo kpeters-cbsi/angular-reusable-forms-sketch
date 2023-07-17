@@ -1,7 +1,9 @@
 /** @format */
 
-import { FieldValue } from "./dynamic-form.component"
+import { FieldValue, IFieldSpec } from "./dynamic-form.component"
 import { FormFieldBase, FormFieldBaseInit } from "./form-field-base"
+import { FormFieldSpec } from "./form-field-spec"
+import { ObjectFormField } from "./object-form-field"
 
 export type FormFieldArrayInit<T extends FieldValue = FieldValue> =
   FormFieldBaseInit<T[]> & {
@@ -13,6 +15,7 @@ export type FormFieldArrayInit<T extends FieldValue = FieldValue> =
     removeIcon?: string
     removeTooltip?: string
     placeholder?: string
+    fields?: { [Key in keyof T]: FormFieldSpec<T[Key]> }
   }
 export class FormFieldArray<
   T extends FieldValue = FieldValue
@@ -29,9 +32,11 @@ export class FormFieldArray<
   required: boolean
   type: string
   placeholder?: string
+  fields?: { [Key in keyof T]: FormFieldSpec<T[Key]> }
 
   constructor(options: FormFieldArrayInit<T>) {
-    super({ ...options, value: options.value || ([] as T[]) })
+    options.value ??= [] as T[]
+    super(options)
     this.addLabel = options.addLabel || "Add Item"
     this.addIcon = options.addIcon
     this.addTooltip = options.addTooltip
@@ -40,5 +45,6 @@ export class FormFieldArray<
     this.removeTooltip = options.removeTooltip
     this.type = options.type || "text"
     this.placeholder = this.placeholder
+    this.fields = options.fields
   }
 }

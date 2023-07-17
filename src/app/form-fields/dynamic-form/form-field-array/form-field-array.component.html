@@ -15,28 +15,68 @@
   <div
     [formArrayName]="key"
     [ngClass]="'dynamic-add-remove'"
-    *ngFor="let item of formArray.controls; let i = index"
+    *ngFor="let item of formArray.controls; let i = index; trackBy: trackBy"
   >
-    <mat-form-field>
-      <input
-        matInput
-        [formControl]="item"
-        [type]="fieldType"
-        [placeholder]="placeholder"
-      />
-    </mat-form-field>
-    <mat-card-actions align="end">
-      <button
-        mat-button
-        color="warn"
-        type="button"
-        [ngClass]="'remove-button'"
-        (click)="removeItem(i)"
-        [matTooltip]="removeTooltip || ''"
-      >
-        <mat-icon *ngIf="removeIcon">{{ removeIcon }}</mat-icon>
-        {{ removeLabel }}
-      </button>
-    </mat-card-actions>
+    <!-- <div>
+      <p>Fields</p>
+      <pre>{{ fields | json }}</pre>
+    </div>
+    <div>
+      <p>Fields2</p>
+      <pre>{{ fields2 | json }}</pre>
+    </div>
+    <div>
+      <p>Array</p>
+      <pre>{{ this.array | json }}</pre>
+    </div> -->
+    <ng-container [formGroup]="form">
+      <mat-form-field>
+        <!-- <input
+          matInput
+          [formControl]="item"
+          [type]="fieldType"
+          [placeholder]="placeholder"
+        /> -->
+        <!-- <ng-container [formGroup]="form">
+        <div *ngFor="let item of testArray.controls; let i = index">
+          <app-object-input
+            [field]="testArrayFields"
+            [formControl]="item"
+          ></app-object-input>
+        </div>
+      </ng-container> -->
+
+        <ng-container *ngIf="itemIsObject(i); else notObject">
+          <label>Field {{ i }}</label>
+          <input matInput />
+
+          <app-object-input
+            [field]="fields"
+            [formControl]="item"
+          ></app-object-input>
+        </ng-container>
+        <ng-template #notObject>
+          <input
+            matInput
+            [formControl]="item"
+            [type]="fieldType"
+            [placeholder]="placeholder"
+          />
+        </ng-template>
+      </mat-form-field>
+      <mat-card-actions align="end">
+        <button
+          mat-button
+          color="warn"
+          type="button"
+          [ngClass]="'remove-button'"
+          (click)="removeItem(i)"
+          [matTooltip]="removeTooltip || ''"
+        >
+          <mat-icon *ngIf="removeIcon">{{ removeIcon }}</mat-icon>
+          {{ removeLabel }}
+        </button>
+      </mat-card-actions>
+    </ng-container>
   </div>
 </ng-container>

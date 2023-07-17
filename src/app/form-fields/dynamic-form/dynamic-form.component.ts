@@ -48,7 +48,7 @@ export class DynamicFormComponent implements OnInit {
     const group: any = {}
     this.fields.forEach((field) => {
       if (field instanceof FormFieldArray) {
-        console.debug("Value:", { value: field.value, field })
+        console.debug("[FormFieldArray] Value:", { value: field.value, field })
         const formArray = new FormArray(
           field.value.map((item) => new FormControl(item))
         )
@@ -70,7 +70,6 @@ export class DynamicFormComponent implements OnInit {
     })
     console.debug("DynamicFormComponent::ngOnInit()", { group })
     this.form = new FormGroup(group)
-    //
   }
 
   public _onSubmit() {

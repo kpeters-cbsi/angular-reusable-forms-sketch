@@ -2,14 +2,13 @@
 
 <ng-container [formGroup]="form">
   <mat-form-field>
-    <label [attr.for]="field.key">{{ field.label }}</label>
+    <label>{{ field.label }}</label>
 
     <div [ngSwitch]="field.controlType">
       <input
         matInput
         *ngSwitchCase="'text'"
         [formControlName]="field.key"
-        [id]="field.key"
         [type]="field.type"
         [value]="field.value"
       />

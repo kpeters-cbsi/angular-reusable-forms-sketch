@@ -5,6 +5,7 @@ import { CommonModule } from "@angular/common"
 import { FormFieldArray } from "../form-field-array"
 import {
   FormArray,
+  FormBuilder,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
@@ -16,20 +17,23 @@ import { FormFieldComponent } from "../form-field/form-field.component"
 import { MatCardModule } from "@angular/material/card"
 import { MatInputModule } from "@angular/material/input"
 import { MatButtonModule } from "@angular/material/button"
+import { ObjectFormField, Value } from "../object-form-field"
+import { ObjectInputComponent } from "../object-input/object-input.component"
 
 @Component({
   selector: "app-form-field-array",
   standalone: true,
   imports: [
     CommonModule,
-    ReactiveFormsModule,
-    MatTooltipModule,
-    MatIconModule,
-    MatFormFieldModule,
     FormFieldComponent,
-    MatCardModule,
-    MatInputModule,
     MatButtonModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatTooltipModule,
+    ObjectInputComponent,
+    ReactiveFormsModule,
   ],
   templateUrl: "./form-field-array.component.html",
   styleUrls: ["./form-field-array.component.scss"],
@@ -43,8 +47,10 @@ export class FormFieldArrayComponent<T> implements OnInit {
       controls: this.formArray.controls,
       formArray: this.form.controls[this.key].constructor.name,
       equalParents: this.formArray.parent === this.form,
+      fields: this.fields,
     })
   }
+
   get isValid() {
     return this.form.controls[this.array.key].valid
   }
@@ -108,7 +114,25 @@ export class FormFieldArrayComponent<T> implements OnInit {
   get label() {
     return this.array.label
   }
+
+  get fields() {
+    return new ObjectFormField({
+      key: `${this.key}_obj`,
+      label: "",
+      fields: this.array.fields,
+      value: this.array.value[0] as Value,
+    })
+  }
+
+  trackBy(idx: number) {
+    return idx
+  }
+
   constructorOf(item: any) {
     return typeof item === "object" ? item.constructor.name : typeof item
+  }
+
+  itemIsObject(i: number) {
+    return typeof this.array.value[i] === "object"
   }
 }
